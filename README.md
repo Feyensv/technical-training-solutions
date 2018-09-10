@@ -1,91 +1,65 @@
 # Odoo 12.0 - Technical Training
 ================================
-# Models, Fields and Relations
+# Computed Fields, Onchange and Constraints
 
 ## Goal
 
-The goal of this module is to learn how the models/objects in Odoo are defined
-and how they interact with each other. The learner will be able to:
+The goal of this module is to learn how to have fields interacting with others,
+and to automatically compute values based on other fields. This includes:
 
-* translate a simple situation into models that will fit the Odoo framework;
-* define a simple model;
-* define simple fields on a model;
-* define relational fields between models.
+* computed fields (`depends` decorator)
+* related fields,
+* storing computed fields in the database,
+* onchange triggers (`onchange` decorator),
+* constraints (`constrains` decorator).
 
 ## Requirements
 
-* [Python](https://www.python.org/)
-* [Odoo](https://www.odoo.com/documentation/master/setup/install.html)
+* [01. Models, Fields and Relations](https://github.com/odoo/technical-training/tree/12.0-01-models/)
 
-## Notice
+## Problem 1: Facilitate Session Registration (OpenAcademy)
 
-No need to build a complete functional module on this exercise! Remember
-that this training is incremental and is intended to show you the
-different tools that the Odoo framework provides.
+In our openacademy module, we already have a few concepts defined: a course and
+a session (an instance of a course) containing basic information like the subject,
+the instructor, the dates and the room size. To each session, a list of students
+that will follow the course can be added.
 
-## Problem 1: The Citadel (OpenAcademy)
+To help the secretary registrating the attendees, we want to avoid to register
+more students than the instructor can take care of. Find one or more ways to
+prevent this scenario.
 
-The citadel of the seven kingdoms, located in Oldtown would like to use Odoo to
-manage the training of its future maesters. In this system, the citadel wants to
-create and edit classes, with different levels. They would like to handle
-different sessions given by different maesters at different moments. It would be
-nice to register the attendees of those sessions. Maester Aemon thinks it would
-be a good idea to differentiate the sessions in preparation from the ones that
-will actually be given, as well as having a way to archive the sessions, so they
-can find what they need as quickly as you can find a book in the Citadel's
-Library, which is the largest in Westeros.
-
-- **Hint**: To have access to the models in the UI, you can add a menu from the
-  models table in the UI in debug mode (go to Settings/Technical/Models, pick
- your model and click on Create a Menu). If no access rights are defined for
- those new models, to access it, become the superuser (in the debug menu).
-- **Technical Hint**: Do not forget to import the `api`, `models` and `fields`
-  and your different files
-
-#### Extra task
-
-* When removing a course, you don't want to have orphan sessions left in the
-  system, as the library, it has to be nice and clean.
+- **Technical Hint**: the computed fields, onchange and constraint do not work
+  the same way, are triggered at the same time or serve the same purpose but
+  they all can help you.
 
 
-## Problem 02: Library Management
+## Problem 2: Borrow a Book and Be Lazy (Library)
 
-Brussels' library wants to use Odoo to manage their books and customers. The
-librarians want to record new books, with the standard information: authors,
-editors, year of edition, ISBN, etc. For their customers, they want to manage
-them, create a new one, and include some standard information like name,
-address, emails, and other information. They want to visualize what customers
-rented on their profile, as well as seeing the customers on the books without
-being able to change it.
-
-- **Hint**: You want to be able have multiple authors for a book.
-- **Hint**: You want to be able to have customers renting multiple books.
-
-#### Extra task
-
-* The librarians want to be able to have the history of the book rentals, with
-  the rental date and the return date.
+In the first module, we created a basic library module with information on the
+book, publisher and customer. When renting a book, we would like to display as
+much information as possible on the renting form (about both the customer and
+the book) but without having to set this information all over again. Find ways
+to be informative and avoids adding workload to the librarians.
 
 
 ## Resources
 
-### Reference
+* [Computed Fields](https://www.odoo.com/documentation/12.0/reference/orm.html#computed-fields)
+    * [ORM documentation](https://www.odoo.com/documentation/12.0/reference/orm.html#field-computed)
+    * [Depends trigger](https://www.odoo.com/documentation/12.0/reference/orm.html#odoo.api.depends)
+    * [Code sample: use the same method for multiple fields](https://github.com/odoo/odoo/blob/76c443eda331b75bf5dfa7ec22b8eb22e1084343/addons/point_of_sale/models/pos_order.py#L719)
+    * [Code sample: inverse method modifying a distant record](https://github.com/odoo/odoo/blob/76c443eda331b75bf5dfa7ec22b8eb22e1084343/addons/delivery/models/delivery_carrier.py#L53)
+* [Related Fields](https://www.odoo.com/documentation/12.0/reference/orm.html#related-fields)
 
-* [Activate Debug Mode](https://www.odoo.com/documentation/12.0/howtos/web.html#a-simple-module)
-* [Models Documentation](http://www.odoo.com/documentation/12.0/reference/orm.html#model-reference)
-* [Basic Fields Documentation](http://www.odoo.com/documentation/12.0/reference/orm.html#basic-fields)
-* [Relational Fields Documentation](http://www.odoo.com/documentation/12.0/reference/orm.html#relational-fields)
-* [Online Tutorial](http://www.odoo.com/documentation/12.0/howtos/backend.html#build-an-odoo-module)
+* [Onchange](https://www.odoo.com/documentation/12.0/reference/orm.html#onchange-updating-ui-on-the-fly)
+    * [The decorator api.onchange](https://www.odoo.com/documentation/12.0/reference/orm.html#odoo.api.onchange)
+    * [Code sample: fill contact information](https://github.com/odoo/odoo/blob/76c443eda331b75bf5dfa7ec22b8eb22e1084343/addons/hr_recruitment/models/hr_recruitment.py#L228)
 
-### Code Sample
+* [Constraints](https://www.odoo.com/documentation/12.0/howtos/backend.html#model-constraints)
+    * [Python constraints](https://www.odoo.com/documentation/12.0/reference/orm.html#odoo.api.constrains)
+        * [Code sample: date verification](https://github.com/odoo/odoo/blob/2021f44c0e053e23d769f1dc2be67b6e3ebed82b/addons/event/models/event.py#L217)
+    * [Sql constraints](https://www.odoo.com/documentation/12.0/reference/orm.html#odoo.models.Model._sql_constraints)
+        * [Code sample: debit/credit rules](https://github.com/odoo/odoo/blob/76c443eda331b75bf5dfa7ec22b8eb22e1084343/addons/account/models/account_move.py#L399)
 
-* [API stuff to import](https://github.com/odoo/odoo/blob/76c443eda331b75bf5dfa7ec22b8eb22e1084343/odoo/addons/base/res/res_bank.py#L5)
-* [Simple model with some basic fields](https://github.com/odoo/odoo/blob/76c443eda331b75bf5dfa7ec22b8eb22e1084343/odoo/addons/base/res/res_bank.py#L15)
-* [Many2one](https://github.com/odoo/odoo/blob/76c443eda331b75bf5dfa7ec22b8eb22e1084343/addons/sale/models/sale.py#L701)
-* [One2many](https://github.com/odoo/odoo/blob/76c443eda331b75bf5dfa7ec22b8eb22e1084343/addons/sale/models/sale.py#L128)
-* [Many2many](https://github.com/odoo/odoo/blob/76c443eda331b75bf5dfa7ec22b8eb22e1084343/addons/account/models/product.py#L25)
-
-### Python
-
-* [Python tutorial](https://docs.python.org/3/tutorial/)
-* [Python quick reminder](https://learnxinyminutes.com/docs/python3/)
+* [Default values](http://www.odoo.com/documentation/12.0/reference/orm.html#odoo.fields.Field)
+    * [Code sample: lunch defaults](https://github.com/odoo/odoo/blob/76c443eda331b75bf5dfa7ec22b8eb22e1084343/addons/lunch/models/lunch.py#L29)
