@@ -49,7 +49,7 @@ class Course(models.Model):
     @api.multi
     def write(self, vals):
         res = super(Course, self).write(vals)
-        res._add_follower(vals)
+        self._add_follower(vals)
         return res
 
     @api.model
