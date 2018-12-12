@@ -17,7 +17,7 @@ class Partner(models.Model):
 
         return {
             'name': 'Partner Task',
-            'view_mode': 'tree, form',
+            'view_mode': 'tree,form',
             'res_model': 'coopplanning.task',
             'type': 'ir.actions.act_window',
             'context': self._context,
