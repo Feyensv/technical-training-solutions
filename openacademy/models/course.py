@@ -276,6 +276,8 @@ class Attendee(models.Model):
             session_ids = self.env['openacademy.session'].search([('state', '=', 'confirmed'), 
                                                                   ('start_date', '>', fields.Date.today()),
                                                                   ('remaining_seat', '>', 0)], order="start_date asc")
+            # How is it ensured that the session found is related to the course_id specified?  Shouldn't it be added
+            # as restriction of the search domain?
             if session_ids:
                 custom_values['session_id'] = session_ids[0].id
         return super(Attendee, self).message_new(msg, custom_values=custom_values)
